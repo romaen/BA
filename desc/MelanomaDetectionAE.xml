@@ -37,7 +37,9 @@
     <fsIndexCollection/>
     <capabilities>
       <capability>
-        <inputs/>
+        <inputs>
+          <type allAnnotatorFeatures="true">org.pr.ba.type.Document</type>
+        </inputs>
         <outputs>
           <type allAnnotatorFeatures="true">org.pr.ba.type.Other</type>
           <type allAnnotatorFeatures="true">org.pr.ba.type.Nevus</type>

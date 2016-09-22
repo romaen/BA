@@ -16,10 +16,6 @@ import org.pr.ba.type.Other;
 
 import opennlp.tools.doccat.DoccatModel;
 import opennlp.tools.doccat.DocumentCategorizerME;
-import opennlp.tools.sentdetect.SentenceDetectorME;
-import opennlp.tools.sentdetect.SentenceModel;
-import opennlp.tools.tokenize.TokenizerME;
-import opennlp.tools.tokenize.TokenizerModel;
 
 public class MelanomaDetection extends JCasAnnotator_ImplBase {
 
@@ -56,7 +52,7 @@ public class MelanomaDetection extends JCasAnnotator_ImplBase {
 
 			double[] outcome = categorizer.categorize(docTxt);
 
-			System.out.println(outcome[0] + ", " + outcome[1]);
+//			System.out.println(outcome[0] + ", " + outcome[1]);
 			if (outcome[0] >= 0.65) {
 				Melanom melanomAnnotation = new Melanom(jcas);
 				melanomAnnotation.setBegin(docAnnStart);

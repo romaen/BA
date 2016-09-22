@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Wed Sep 14 18:00:25 CEST 2016
- * XML source: C:/Users/Julien/workspace/UIMA_Pipeline/desc/PrepScopedOpenNLPAggregate.xml
+ * Updated by JCasGen Tue Sep 20 17:53:15 CEST 2016
+ * XML source: C:/Users/Julien/workspace/UIMA_Pipeline/desc/PrepScopeDescr.xml
  * @generated */
 public class PrepScope extends Annotation {
   /** @generated
@@ -74,6 +74,26 @@ public class PrepScope extends Annotation {
    */
   private void readObject() {/*default - does nothing empty block */}
      
-}
+  //*--------------*
+  //* Feature: PrepInDoc
+
+  /** getter for PrepInDoc - gets 
+   * @generated
+   * @return value of the feature 
+   */
+  public int getPrepInDoc() {
+    if (PrepScope_Type.featOkTst && ((PrepScope_Type)jcasType).casFeat_PrepInDoc == null)
+      jcasType.jcas.throwFeatMissing("PrepInDoc", "org.pr.ba.type.PrepScope");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((PrepScope_Type)jcasType).casFeatCode_PrepInDoc);}
+    
+  /** setter for PrepInDoc - sets  
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setPrepInDoc(int v) {
+    if (PrepScope_Type.featOkTst && ((PrepScope_Type)jcasType).casFeat_PrepInDoc == null)
+      jcasType.jcas.throwFeatMissing("PrepInDoc", "org.pr.ba.type.PrepScope");
+    jcasType.ll_cas.ll_setIntValue(addr, ((PrepScope_Type)jcasType).casFeatCode_PrepInDoc, v);}    
+  }
 
     

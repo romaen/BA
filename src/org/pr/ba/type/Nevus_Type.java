@@ -9,7 +9,7 @@ import org.apache.uima.cas.Type;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Wed Sep 14 23:26:06 CEST 2016
+ * Updated by JCasGen Mon Sep 19 14:21:15 CEST 2016
  * @generated */
 public class Nevus_Type extends Annotation_Type {
   /** @generated */

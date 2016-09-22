@@ -9,6 +9,15 @@
     <delegateAnalysisEngine key="MelanomaDetectionAE">
       <import location="MelanomaDetectionAE.xml"/>
     </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="OpenNLPTokenizerAEDescr">
+      <import location="OpenNLPTokenizerAEDescr.xml"/>
+    
+    </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="PrepScopeDescr">
+      <import location="PrepScopeDescr.xml"/>
+    
+    
+    </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
     <name>PrepScopedOpenNLPAggregate</name>
@@ -19,8 +28,10 @@
     <configurationParameterSettings/>
     <flowConstraints>
       <fixedFlow>
+        <node>OpenNLPTokenizerAEDescr</node>
         <node>DocumentScopeDescr</node>
-        <node>MelanomaDetectionAE</node>
+      <node>MelanomaDetectionAE</node>
+      <node>PrepScopeDescr</node>
       </fixedFlow>
     </flowConstraints>
     <typePriorities/>
@@ -29,6 +40,8 @@
       <capability>
         <inputs>
           <type allAnnotatorFeatures="true">org.pr.ba.type.Document</type>
+        <type allAnnotatorFeatures="true">org.pr.ba.type.Token</type>
+          <type allAnnotatorFeatures="true">org.pr.ba.type.Sentence</type>
         </inputs>
         <outputs>
           <type allAnnotatorFeatures="true">org.pr.ba.type.Other</type>

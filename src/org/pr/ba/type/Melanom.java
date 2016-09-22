@@ -11,7 +11,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Wed Sep 14 23:26:06 CEST 2016
+ * Updated by JCasGen Mon Sep 19 14:21:14 CEST 2016
  * XML source: C:/Users/Julien/workspace/UIMA_Pipeline/desc/PrepScopedOpenNLPAggregate.xml
  * @generated */
 public class Melanom extends Annotation {

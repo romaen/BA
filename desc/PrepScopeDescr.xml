@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
-  <primitive>true</primitive>  <annotatorImplementationName>org.pr.ba.tut.PrepScopeFinder</annotatorImplementationName>
+  <primitive>true</primitive>  <annotatorImplementationName>org.pr.ba.tut.PrepInDocFinder</annotatorImplementationName>
   <analysisEngineMetaData>
     <name>PrepScopeDescr</name>
     <description/>
@@ -15,6 +15,23 @@
           <name>org.pr.ba.type.PrepScope</name>
           <description/>
           <supertypeName>uima.tcas.Annotation</supertypeName>
+        <features>
+            <featureDescription>
+              <name>PrepInDoc</name>
+              <description/>
+              <rangeTypeName>uima.cas.Integer</rangeTypeName>
+            </featureDescription>
+          </features>
+        </typeDescription>
+      <typeDescription>
+          <name>org.pr.ba.type.Token</name>
+          <description/>
+          <supertypeName>uima.tcas.Annotation</supertypeName>
+        </typeDescription>
+        <typeDescription>
+          <name>org.pr.ba.type.Document</name>
+          <description/>
+          <supertypeName>uima.tcas.Annotation</supertypeName>
         </typeDescription>
       </types>
     </typeSystemDescription>
@@ -22,7 +39,10 @@
     <fsIndexCollection/>
     <capabilities>
       <capability>
-        <inputs/>
+        <inputs>
+          <type allAnnotatorFeatures="true">org.pr.ba.type.Token</type>
+          <type allAnnotatorFeatures="true">org.pr.ba.type.Document</type>
+        </inputs>
         <outputs>
           <type allAnnotatorFeatures="true">org.pr.ba.type.PrepScope</type>
         </outputs>
@@ -35,5 +55,28 @@
       <outputsNewCASes>false</outputsNewCASes>
     </operationalProperties>
   </analysisEngineMetaData>
-  <resourceManagerConfiguration/>
+  <externalResourceDependencies>
+    <externalResourceDependency>
+      <key>TokenizerModel</key>
+      <description/>
+      <optional>false</optional>
+    </externalResourceDependency>
+  </externalResourceDependencies>
+  <resourceManagerConfiguration>
+    <externalResources>
+      <externalResource>
+        <name>TokenizerModelFile</name>
+        <description/>
+        <fileResourceSpecifier>
+          <fileUrl>org/pr/ba/tut/de-token.bin</fileUrl>
+        </fileResourceSpecifier>
+      </externalResource>
+    </externalResources>
+    <externalResourceBindings>
+      <externalResourceBinding>
+        <key>TokenizerModel</key>
+        <resourceName>TokenizerModelFile</resourceName>
+      </externalResourceBinding>
+    </externalResourceBindings>
+  </resourceManagerConfiguration>
 </analysisEngineDescription>

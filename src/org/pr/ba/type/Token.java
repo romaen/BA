@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Wed Sep 14 18:00:25 CEST 2016
- * XML source: C:/Users/Julien/workspace/UIMA_Pipeline/desc/PrepScopedOpenNLPAggregate.xml
+ * Updated by JCasGen Tue Sep 20 17:53:15 CEST 2016
+ * XML source: C:/Users/Julien/workspace/UIMA_Pipeline/desc/PrepScopeDescr.xml
  * @generated */
 public class Token extends Annotation {
   /** @generated

@@ -11,7 +11,6 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.pr.ba.type.Document;
 import org.pr.ba.type.PrepScope;
-import org.pr.ba.type.Token;
 
 import opennlp.tools.dictionary.Dictionary;
 import opennlp.tools.namefind.DictionaryNameFinder;
@@ -20,7 +19,7 @@ import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.Span;
 import opennlp.tools.util.StringList;
 
-public class PrepScopeFinder extends JCasAnnotator_ImplBase {
+public class PrepInDocFinder extends JCasAnnotator_ImplBase {
 	private TokenizerME tokenizer;
 
 	public void initialize(UimaContext ctx) throws ResourceInitializationException {
@@ -39,19 +38,17 @@ public class PrepScopeFinder extends JCasAnnotator_ImplBase {
 
 	@Override
 	public void process(JCas jcas) throws AnalysisEngineProcessException {
-		String inputTxt = jcas.getDocumentText();
-		FSIndex tokenAnnIndex = jcas.getAnnotationIndex(Token.type);
 		FSIndex docAnnIndex = jcas.getAnnotationIndex(Document.type);
-		Iterator tokenAnnIterator = tokenAnnIndex.iterator();
 		Iterator docAnnIterator = docAnnIndex.iterator();
 
 		Dictionary prepDict1 = new Dictionary();
 		Dictionary prepDict2 = new Dictionary();
 		prepDict2.put(new StringList("Das", "Präparat"));
-//		prepDict1.put(new StringList("Präparate"));
 		prepDict2.put(new StringList("OP-Präparat"));
 		prepDict2.put(new StringList("Exzisionspräparat"));
+		prepDict2.put(new StringList("Excisionspräparat"));
 
+		prepDict1.put(new StringList("+"));
 		prepDict1.put(new StringList("Präp", "."));
 		prepDict1.put(new StringList("Präparat", "1]"));
 		prepDict1.put(new StringList("Präparat", "2]"));
@@ -65,62 +62,48 @@ public class PrepScopeFinder extends JCasAnnotator_ImplBase {
 		prepDict1.put(new StringList("Präparat", "5", ")"));
 
 		DictionaryNameFinder dictNameFinder = new DictionaryNameFinder(prepDict1, "PrepScope");
-		// String[] tokensTxt = tokenizer.tokenize(inputTxt);
-		String[] docTxt = tokenizer.tokenize(inputTxt);
-		Span[] tokenSpans = tokenizer.tokenizePos(inputTxt);
+		DictionaryNameFinder dictNameFinder2 = new DictionaryNameFinder(prepDict2, "PrepScope");
 
-//		while (docAnnIterator.hasNext()) {};
-//			Document docAnn = (Document) docAnnIterator.next();
-//			String[] documentTxt = tokenizer.tokenize(docAnn.getCoveredText());
-//			int docStart = docAnn.getBegin();
-//			int docEnd = docAnn.getEnd();
-			Span[] span = dictNameFinder.find(docTxt);
+		while (docAnnIterator.hasNext()) {
+			Document docAnn = (Document) docAnnIterator.next();
+			String[] documentTxt = tokenizer.tokenize(docAnn.getCoveredText());
+			int docStart = docAnn.getBegin();
+			int docEnd = docAnn.getEnd();
+			Span[] span = dictNameFinder.find(documentTxt);
+			Span[] span2 = dictNameFinder2.find(documentTxt);
 
-//			if (span.length == 0) {
-//				prepAnn.setBegin(docStart);
-//				prepAnn.setEnd(docEnd);
-//				prepAnn.addToIndexes(jcas);
-//			}
-			
-//			String[] docTxt = tokenizer.tokenize(docAnn.getCoveredText());
+			if (span.length == 0) {
+				if (span2.length == 0) {
+					PrepScope prepAnn = new PrepScope(jcas);
+					prepAnn.setPrepInDoc(1);
+					prepAnn.setBegin(docStart);
+					prepAnn.setEnd(docEnd);
+					prepAnn.addToIndexes(jcas);
+				} else {
 
-			for (int i = 0; i < span.length; i++) {
+					PrepScope prepAnn = new PrepScope(jcas);
+					prepAnn.setPrepInDoc(span2.length);
+					prepAnn.setBegin(docStart);
+					prepAnn.setEnd(docEnd);
+					prepAnn.addToIndexes(jcas);
+
+				}
+			} else if (span.length > 0) {
+
 				PrepScope prepAnn = new PrepScope(jcas);
-				int prepStart = span[i].getStart();
-				int prepEnd = span[i].getEnd();
-				int tokenStart = tokenSpans[prepStart].getStart();
-				int tokenEnd = tokenSpans[prepEnd].getStart();
-				prepAnn.setBegin(tokenStart);
-				prepAnn.setEnd(tokenEnd);
+				prepAnn.setPrepInDoc(span.length);
+				prepAnn.setBegin(docStart);
+				prepAnn.setEnd(docEnd);
+				prepAnn.addToIndexes(jcas);
+
+			} else {
+				PrepScope prepAnn = new PrepScope(jcas);
+				prepAnn.setPrepInDoc(1);
+				prepAnn.setBegin(docStart);
+				prepAnn.setEnd(docEnd);
 				prepAnn.addToIndexes(jcas);
 			}
-			// for (int i = 0; i < span.length; i++) {
-			// int prepStart = span[i].getStart();
-			// int prepEnd = span[i].getEnd();
-			// int tokenStart = tokenSpans[prepStart].getStart();
-			// int tokenEnd = tokenSpans[prepEnd].getStart();
-			// System.out.println(tokenSpans[prepStart].equals("Präp."));
-			// if (tokenSpans[prepStart].equals("Präp.")) {
-			// prepAnn.setBegin(docStart);
-			// prepAnn.setEnd(docEnd);
-			// prepAnn.addToIndexes(jcas);
-			// } else if (tokenSpans[prepStart].equals("Präparat")) {
-			// prepAnn.setBegin(docStart);
-			// prepAnn.setEnd(docEnd);
-			// prepAnn.addToIndexes(jcas);
-			// }
-
-			// int prepStart = span[i].getStart();
-			// int prepEnd = span[i].getEnd();
-			// int tokenStart = tokenSpans[prepStart].getStart();
-			// int tokenEnd = tokenSpans[prepEnd].getStart();
-			// prepAnn.setBegin(docStart);
-			// prepAnn.setEnd(docEnd);
-			// prepAnn.addToIndexes(jcas);
-		
-
-		// while (docAnnIterator.hasNext()) {}; Document docAnn = (Document)
-
+		}
 
 	}
 
